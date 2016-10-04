@@ -1,32 +1,88 @@
 #!/bin/bash
 
-# Check availability of google.com
-wget -q --spider http://google.com
+# Initialise variables
+reply=""
+host=""
+place=""
+login_url=""
+debug=0
 
-if [ $? -eq 0 ]; then
 
+# Parse arguments here
+debug=1
+
+
+# Add a configuration file
+source bitsnet.cnf
+if [[ debug -eq 1 ]]; then
+	echo "Username: $default_username"
+	echo "Password: $default_password"
+	echo "DefaultLoginURL: $default_login_url"
+fi
+
+# Define functions -------------------------------------------------------------
+
+#Sends login request and captures output in $reply
+function send_request(){
+	if [[ debug -eq 1 ]]; then
+		echo "Place is '$place' recieved in send_request()"
+	fi
+
+	#Send login request
+	reply=$(curl -ksd \
+		"mode=191&username=$default_username&password=$default_password" \
+		$login_url)
+
+	#Extract the msg text
+	reply="${reply##*\<message><\![CDATA[}"
+	reply=$(echo "$reply" | cut -d']' -f1)
+
+}
+
+# Change place and $loginURL according to the IP
+function change_place(){
 	#get ip
 	host="$(hostname -I)"
 
-	if [[ "$host" == "10.20."* || "$host" == "10.4.9."* || "$host" == "10.30.24."* ]]; then
-
-		#Send login request
-		reply=$(curl -ksd "mode=191&username=f2015022&password=mypass" https://10.1.0.10:8090/httpclient.html)
-
-		#Extract the msg text
-		reply="${reply##*\<message><\![CDATA[}"
-		reply=$(echo "$reply" | cut -d']' -f1)
-
+	if [[ "$host" == "10.20."* ]]; then
+		place="library"
+		login_url=$library_login_url
+	elif [[ "$host" == "10.4."* ]]; then
+		place="hostel"
+		login_url=$hostel_login_url
+	elif [[ "$host" == "10.30."* ]]; then
+		place="academic_block"
+		login_url=$academic_block_login_url
 	else
-		reply="You are not connected to BITSnet"
+		place="unknown"
+		login_url=$default_login_url
 	fi
-else
-	reply="You are offline"
-fi
 
-#check if script wants notification or not
-if [[ "$1" != "--nonotif" && "$1" != "-n" ]]; then
+	if [[ debug -eq 1 ]]; then
+		echo "Place: $place"
+		echo "Login URL: $login_url"
+	fi
+}
 
-	#send a notification
-	notify-send 'BITSnet' "$reply" --icon=network-transmit
+# Check availability of google.com
+#wget -q --spider "$test_domain"
+
+
+#if [ $? -eq 0 ]; then #If we can connect
+
+# Change place according to the IP
+change_place
+
+# Send request and capture output
+send_request
+
+#else
+#	reply="You are offline"
+#fi
+
+
+# 	#send a notification
+# 	notify-send 'BITSnet' "$reply" --icon=network-transmit
+if [[ debug -eq 1 ]]; then
+	echo "$reply"
 fi
