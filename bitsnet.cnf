@@ -1,4 +1,8 @@
 # Set defaults here
 default_username="f2015022"
 default_password="myPass"
-default_login_url="10.1.0.10:8090/httpclient.html"
+default_login_url="https://10.1.0.10:8090/httpclient.html"
+hostel_login_url="https://10.1.0.10:8090/httpclient.html"
+library_login_url="https://10.1.0.10:8090/httpclient.html"
+academic_block_login_url="https://10.1.0.10:8090/httpclient.html"
+test_domain="http://google.com"
