@@ -15,8 +15,8 @@ debug=1
 # Add a configuration file
 source bitsnet.cnf
 if [[ debug -eq 1 ]]; then
-	echo "Username: $default_username"
-	echo "Password: $default_password"
+	echo "DefaultUsername: $default_username"
+	echo "DefaultPassword: $default_password"
 	echo "DefaultLoginURL: $default_login_url"
 fi
 
@@ -64,13 +64,16 @@ function change_place(){
 	fi
 }
 
+# End function definitions -----------------------------------------------------
+
+
 # Check availability of google.com
 #wget -q --spider "$test_domain"
 
 
 #if [ $? -eq 0 ]; then #If we can connect
 
-# Change place according to the IP
+# Change place and login_url according to the IP
 change_place
 
 # Send request and capture output
