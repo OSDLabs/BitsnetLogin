@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Get superuser access
+sudo -v
+
+# Copy config file to the right place
+cp ./bitsnetrc ~/.bitsnetrc
+
+# Copy the script to executables
+cp ./bitsnet ~/.local/bin/bitsnetTwo
+
+# Create a desktop file
+cp ./bitsnet.desktop ~/.local/share/applications/bitsnet.desktop
+
+# Create a man page
+# To Be Done

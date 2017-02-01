@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Klavaro
+Comment=A very flexible and efficient touch typing tutor.
+Keywords=bitsnet;login;cyberroam
+Exec=bitsnet
+Icon=bitsnet
+Terminal=false
+Type=Application
+Categories=Internet
+StartupNotify=false
