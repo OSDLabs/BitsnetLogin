@@ -1,12 +1,13 @@
 #!/bin/sh
 
-# Get superuser access
-sudo -v
-
 # Copy config file to the right place
 cp ./bitsnetrc ~/.bitsnetrc
 
 # Copy the script to executables
+if [ ! -d ~/.local/lib/bitsnet ]; then
+    mkdir ~/.local/lib/bitsnet
+fi
+cp ./util.sh ~/.local/lib/bitsnet/util.sh
 cp ./bitsnet ~/.local/bin/bitsnetTwo
 
 # Create a desktop file
