@@ -1,91 +1,95 @@
 #!/bin/bash
 
 # Initialise variables
-reply=""
-host=""
-place=""
-login_url=""
-debug=0
 
-
-# Parse arguments here
-debug=1
-
+# ---- load util functions ----
+source ~/.local/lib/bitsnet/util.sh
 
 # Add a configuration file
-source bitsnet.cnf
-if [[ debug -eq 1 ]]; then
-	echo "DefaultUsername: $default_username"
-	echo "DefaultPassword: $default_password"
-	echo "DefaultLoginURL: $default_login_url"
+source ~/.bitsnetrc
+
+# Parse arguments
+while getopts "u:p:dh" o; do
+    case "${o}" in
+        u | -username)
+            username=${OPTARG}
+            ;;
+        p)
+            password=${OPTARG}
+            ;;
+        d)
+            debug=1
+            debug_msg "Going into debug mode"
+            ;;
+        h | * | [?])
+            show_help
+            ;;
+    esac
+done
+
+debug_msg "Username: $username"
+debug_msg "Password: $password"
+debug_msg "LoginURL: $login_url"
+
+
+# Check if username or password are empty
+debug_msg "Checking if username or password is empty"
+if [[ "$username" == "" ]]; then
+    echo "Username empty"
+    debug_msg "Exiting"
+    exit
+fi
+if [[ "$password" == "" ]]; then
+    echo "Password empty"
+    debug_msg "Exiting"
+    exit
 fi
 
-# Define functions -------------------------------------------------------------
 
-#Sends login request and captures output in $reply
-function send_request(){
-	if [[ debug -eq 1 ]]; then
-		echo "Place is '$place' recieved in send_request()"
-	fi
-
-	#Send login request
-	reply=$(curl -ksd \
-		"mode=191&username=$default_username&password=$default_password" \
-		$login_url)
-
-	#Extract the msg text
-	reply="${reply##*\<message><\![CDATA[}"
-	reply=$(echo "$reply" | cut -d']' -f1)
-
-}
-
-# Change place and $loginURL according to the IP
-function change_place(){
-	#get ip
-	host="$(hostname -I)"
-
-	if [[ "$host" == "10.20."* ]]; then
-		place="library"
-		login_url=$library_login_url
-	elif [[ "$host" == "10.4."* ]]; then
-		place="hostel"
-		login_url=$hostel_login_url
-	elif [[ "$host" == "10.30."* ]]; then
-		place="academic_block"
-		login_url=$academic_block_login_url
-	else
-		place="unknown"
-		login_url=$default_login_url
-	fi
-
-	if [[ debug -eq 1 ]]; then
-		echo "Place: $place"
-		echo "Login URL: $login_url"
-	fi
-}
-
-# End function definitions -----------------------------------------------------
-
-
-# Check availability of google.com
-#wget -q --spider "$test_domain"
-
-
-#if [ $? -eq 0 ]; then #If we can connect
-
-# Change place and login_url according to the IP
-change_place
-
-# Send request and capture output
-send_request
-
-#else
-#	reply="You are offline"
-#fi
-
-
-# 	#send a notification
-# 	notify-send 'BITSnet' "$reply" --icon=network-transmit
-if [[ debug -eq 1 ]]; then
-	echo "$reply"
+# Check if using wifi or ethernet
+devInfo="$(nmcli dev | grep " connected" | cut -d " " -f1)"
+debug_msg ""
+debug_msg "Checking device info"
+debug_msg "devInfo = $devInfo"
+if [[ $devInfo == "en"* ]]; then
+    dev=1
+elif [[ $devInfo == "wl"* ]]; then
+    dev=2
+else
+    dev=0
 fi
+debug_msg "dev = $dev"
+
+
+# Exit if dev = 0
+if [[ "$dev" == "0" ]]; then
+    debug_msg "Exiting because dev is zero"
+    exit
+fi
+
+
+# Check if already logged in
+
+
+# Select correct login page according to IP
+# and load corresponding login_url
+debug_msg ""
+debug_msg "Selecting login url"
+debug_msg "Using url: $login_url"
+
+
+# Login
+debug_msg ""
+debug_msg "Logging in"
+reply=$(curl -ks -d "mode=191&username=$username&password=$password" $login_url)
+
+# Extract reply
+debug_msg "Extracting reply"
+reply="${reply##*\<message><\![CDATA[}"
+reply=$(echo "$reply" | cut -d']' -f1)
+
+
+# Display reply or send a notification
+debug_msg ""
+echo $reply
+debug_msg "Reply sent"
