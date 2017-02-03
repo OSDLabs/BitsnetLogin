@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# Initialise variables
 
-# ---- load util functions ----
+# Load util functions
 source ~/.local/lib/bitsnet/util.sh
 
 # Add a configuration file
@@ -11,7 +10,7 @@ source ~/.bitsnetrc
 # Parse arguments
 while getopts "u:p:dh" o; do
     case "${o}" in
-        u | -username)
+        u)
             username=${OPTARG}
             ;;
         p)
@@ -34,16 +33,12 @@ debug_msg "LoginURL: $login_url"
 
 # Check if username or password are empty
 debug_msg "Checking if username or password is empty"
-if [[ "$username" == "" ]]; then
-    echo "Username empty"
+if [[ ("$username" == "") || ("$password" == "") ]]; then
+    reply="Username or password empty"
     debug_msg "Exiting"
     exit
 fi
-if [[ "$password" == "" ]]; then
-    echo "Password empty"
-    debug_msg "Exiting"
-    exit
-fi
+debug_msg "Not empty"
 
 
 # Check if using wifi or ethernet
@@ -91,5 +86,11 @@ reply=$(echo "$reply" | cut -d']' -f1)
 
 # Display reply or send a notification
 debug_msg ""
-echo $reply
+send_msg "$reply"
 debug_msg "Reply sent"
+
+
+# Exit
+debug_msg ""
+debug_msg "Exiting"
+exit
