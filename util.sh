@@ -12,3 +12,11 @@ function debug_msg {
         echo "${GREEN}DEBUG:${RESET} $1"
     fi
 }
+
+function send_msg {
+    if [[ debug -eq 0 ]]; then
+        notify-send 'BITSnet' "$1" --icon=network-transmit
+    else
+        debug_msg "reply: $1"
+    fi
+}
