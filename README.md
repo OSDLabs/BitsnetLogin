@@ -28,7 +28,7 @@ Use terminal to issue this command: ```bitsnet```
 
 Fire up a terminal and issue these commands:
 ```
-git clone https://github.com/UtkarshMe/BitsnetLogin
+git clone https://github.com/OSDLabs/BitsnetLogin
 cd BitsnetLogin
 ```
 - Open bitsnetrc file and specify your username and password
@@ -40,8 +40,8 @@ cd BitsnetLogin
 You can now login via terminal (```bitsnet```) or by launching the app
 
 # Author
-UTkarsh Maheshwari
-BITS ID: 2015A7PS022G
+UTkarsh Maheshwari,  
+**OSDLabs**
 
 # License
 GPL version 3
