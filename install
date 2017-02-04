@@ -15,7 +15,6 @@ if [ ! -d ~/.local/lib/bitsnet ]; then
     mkdir ~/.local/lib/bitsnet
 fi
 cp ./util.sh ~/.local/lib/bitsnet/util.sh
-cp ./icon.png ~/.local/lib/bitsnet/icon.png
 cp ./bitsnet ~/.local/bin/bitsnet
 
 # Create a desktop file
