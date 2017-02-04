@@ -8,7 +8,7 @@ source ~/.local/lib/bitsnet/util.sh
 source ~/.bitsnetrc
 
 # Parse arguments
-while getopts "u:p:dh" o; do
+while getopts "u:p:dhU" o; do
     case "${o}" in
         u)
             username=${OPTARG}
@@ -19,6 +19,9 @@ while getopts "u:p:dh" o; do
         d)
             debug=1
             debug_msg "Going into debug mode"
+            ;;
+        U)
+            update
             ;;
         h | * | [?])
             show_help

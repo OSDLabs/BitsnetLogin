@@ -14,6 +14,8 @@ function show_help {
         specify a different password
     -d
         turn debug on
+    -U
+        update
     -h
         display help"
     exit
@@ -31,4 +33,17 @@ function send_msg {
     else
         debug_msg "reply: $1"
     fi
+}
+
+function update {
+    debug_msg "Updating"
+    cd /tmp
+    debug_msg "Cloning repo"
+    git clone https://github.com/OSDLabs/BitsnetLogin
+    cd BitsnetLogin
+    debug_msg "Installing"
+    ./install
+    echo "Updated"
+    debug_msg "Exiting"
+    exit
 }
