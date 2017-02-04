@@ -4,7 +4,19 @@ GREEN="$(tput setaf 2)"
 RESET="$(tput sgr0)"
 
 function show_help {
-    echo "PUT HELP TEXT HERE"
+    echo "Usage: "
+    echo "bitsnet [OPTIONS]"
+    echo
+    echo "Options:
+    -u USERNAME 
+        use specific username
+    -p PASSWORD
+        specify a different password
+    -d
+        turn debug on
+    -h
+        display help"
+    exit
 }
 
 function debug_msg {
