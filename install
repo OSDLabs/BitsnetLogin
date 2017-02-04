@@ -1,7 +1,14 @@
 #!/bin/sh
 
+# Check if curl and wget installed
+if ! which wget > /dev/null && which curl > /dev/null ; then
+    echo "wget or curl not installed $0"
+fi
+
 # Copy config file to the right place
-cp ./bitsnetrc ~/.bitsnetrc
+if ! which bitsnet > /dev/null ; then
+    cp ./bitsnetrc ~/.bitsnetrc
+fi
 
 # Copy the script to executables
 if [ ! -d ~/.local/lib/bitsnet ]; then
