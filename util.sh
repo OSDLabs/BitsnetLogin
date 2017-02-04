@@ -44,6 +44,8 @@ function update {
     debug_msg "Installing"
     ./install
     echo "Updated"
+    cd /tmp
+    rm -rf BitsnetLogin
     debug_msg "Exiting"
     exit
 }
