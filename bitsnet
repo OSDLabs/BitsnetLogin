@@ -47,10 +47,13 @@ debug_msg ""
 debug_msg "Checking device info"
 debug_msg "devInfo = $devInfo"
 if [[ $devInfo == "en"* ]]; then
+    # ethernet
     dev=1
 elif [[ $devInfo == "wl"* ]]; then
+    # wifi
     dev=2
 else
+    # unknown
     dev=0
 fi
 debug_msg "dev = $dev"
@@ -76,6 +79,9 @@ debug_msg "Using url: $login_url"
 # Login
 debug_msg ""
 debug_msg "Logging in"
+if [[ "$dev" == "2" ]]; then
+    wget --post-data="username=$username&password=$password&loginAccept=1&buttonClicked=4&err_flag=0&info_flag=0&Submit=Submit&err_msg=&info_msg=&redirect_url=" https://20.20.2.11/login.html --no-check-certificate --quiet
+fi
 reply=$(curl -ks -d "mode=191&username=$username&password=$password" $login_url)
 
 # Extract reply
