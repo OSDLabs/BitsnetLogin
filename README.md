@@ -15,11 +15,13 @@ Use terminal to issue this command: ```bitsnet```
 
 ```
     -u USERNAME 
-        use specific username
+        Use specific username
     -p PASSWORD
-        specify a different password
+        Specify a different password
     -d
         Turn debug on
+    -U
+        Update program
     -h
         Display help
 ```
