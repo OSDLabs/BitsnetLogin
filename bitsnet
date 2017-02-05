@@ -8,7 +8,7 @@ source ~/.local/lib/bitsnet/util.sh
 source ~/.bitsnetrc
 
 # Parse arguments
-while getopts "u:p:dhU" o; do
+while getopts "u:p:dhUo" o; do
     case "${o}" in
         u)
             username=${OPTARG}
@@ -22,6 +22,9 @@ while getopts "u:p:dhU" o; do
             ;;
         U)
             update
+            ;;
+        o)
+            logOut
             ;;
         h | * | [?])
             show_help
@@ -90,8 +93,7 @@ reply=$(wget -qO- --no-check-certificate --post-data="mode=191&username=$usernam
 
 # Extract reply
 debug_msg "Extracting reply"
-reply="${reply##*\<message><\![CDATA[}"
-reply=$(echo "$reply" | cut -d']' -f1)
+reply=$(extract_msg $reply)
 
 
 # Display reply or send a notification

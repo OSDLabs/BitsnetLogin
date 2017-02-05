@@ -12,6 +12,8 @@ function show_help {
         use specific username
     -p PASSWORD
         specify a different password
+    -o
+        logout
     -d
         turn debug on
     -U
@@ -25,6 +27,12 @@ function debug_msg {
     if [[ debug -eq 1 ]]; then
         echo "${GREEN}DEBUG:${RESET} $1"
     fi
+}
+
+function extract_msg {
+    reply="${reply##*\<message><\![CDATA[}"
+    reply=$(echo "$reply" | cut -d']' -f1)
+    echo $reply
 }
 
 function send_msg {
@@ -47,5 +55,12 @@ function update {
     cd /tmp
     rm -rf BitsnetLogin
     debug_msg "Exiting"
+    exit
+}
+
+function logOut() {
+    reply=$(wget -qO- --no-check-certificate --post-data="mode=193&username=$username&submit=Logout" $login_url)
+    reply=$(extract_msg $reply)
+    send_msg "$reply"
     exit
 }
