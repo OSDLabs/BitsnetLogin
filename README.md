@@ -18,6 +18,8 @@ Use terminal to issue this command: ```bitsnet```
         Use specific username
     -p PASSWORD
         Specify a different password
+    -o
+        logout
     -d
         Turn debug on
     -U

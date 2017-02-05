@@ -8,7 +8,7 @@ source ~/.local/lib/bitsnet/util.sh
 source ~/.bitsnetrc
 
 # Parse arguments
-while getopts "u:p:dhU" o; do
+while getopts "u:p:dhUo" o; do
     case "${o}" in
         u)
             username=${OPTARG}
@@ -22,6 +22,9 @@ while getopts "u:p:dhU" o; do
             ;;
         U)
             update
+            ;;
+        o)
+            logOut
             ;;
         h | * | [?])
             show_help
@@ -86,12 +89,11 @@ if [[ "$dev" == "2" ]]; then
     debug_msg "Connected to wifi. Sending request to cisco router form"
     wget --post-data="username=$username&password=$password&loginAccept=1&buttonClicked=4&err_flag=0&info_flag=0&Submit=Submit&err_msg=&info_msg=&redirect_url=" https://20.20.2.11/login.html --no-check-certificate --quiet -O /dev/null
 fi
-reply=$(curl -ks -d "mode=191&username=$username&password=$password" $login_url)
+reply=$(wget -qO- --no-check-certificate --post-data="mode=191&username=$username&password=$password" $login_url)
 
 # Extract reply
 debug_msg "Extracting reply"
-reply="${reply##*\<message><\![CDATA[}"
-reply=$(echo "$reply" | cut -d']' -f1)
+reply=$(extract_msg $reply)
 
 
 # Display reply or send a notification

@@ -1,8 +1,9 @@
 #!/bin/sh
 
 # Check if curl and wget installed
-if ! which wget > /dev/null && which curl > /dev/null ; then
-    echo "wget or curl not installed $0"
+if ! which wget > /dev/null ; then
+    echo "wget not installed"
+    exit
 fi
 
 # Copy config file to the right place
