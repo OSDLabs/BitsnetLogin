@@ -58,9 +58,37 @@ function update {
     exit
 }
 
-function logOut() {
+function log_out {
     reply=$(wget -qO- --no-check-certificate --post-data="mode=193&username=$username&submit=Logout" $login_url)
     reply=$(extract_msg $reply)
     send_msg "$reply"
     exit
+}
+
+function get_device {
+    devInfo="$(nmcli dev | grep " connected" | cut -d " " -f1)"
+    if [[ $devInfo == "en"* ]]; then
+        # ethernet
+        dev=1
+    elif [[ $devInfo == "wl"* ]]; then
+        # wifi
+        dev=2
+    elif [[ $devInfo == "virbr"* ]]; then
+        # virtual bridge
+        dev=3
+    else
+        # unknown
+        dev=0
+    fi
+
+    echo "$dev"
+}
+
+function router_login() {
+    wget --post-data="username=$username&password=$password&loginAccept=1&buttonClicked=4&err_flag=0&info_flag=0&Submit=Submit&err_msg=&info_msg=&redirect_url=" https://20.20.2.11/login.html --no-check-certificate --quiet -O /dev/null
+}
+
+function ldap_login() {
+    reply=$(wget -qO- --no-check-certificate --post-data="mode=191&username=$username&password=$password" $login_url)
+    echo $reply
 }
