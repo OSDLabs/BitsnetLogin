@@ -32,15 +32,37 @@ while getopts "u:p:dhUo" o; do
     esac
 done
 
+
 debug_msg "Username: $username"
 debug_msg "Password: $password"
 debug_msg "LoginURL: $login_url"
 
 
+# Check if using bitsnet
+# This is being implemented by sending a spider request to the local LMS server
+debug_msg "Checking if connected to bitsnet"
+if ! wget -qT 5 -t 1 --spider --no-check-certificate http://photon.bits-goa.ac.in
+then
+    send_msg "Not connected to bitsnet"
+    exit
+else
+    debug_msg "Connected to bitsnet"
+fi
+
+
+# Check if already logged in
+debug_msg "Checking if already connected"
+if wget -qT 5 -t 1 --spider --no-check-certificate https://google.com
+then
+    send_msg "Already logged into the BITSnet"
+    exit
+fi
+
+
 # Check if username or password are empty
 debug_msg "Checking if username or password is empty"
 if [[ ("$username" == "") || ("$password" == "") ]]; then
-    reply="Username or password empty"
+    send_msg "Username or password empty"
     debug_msg "Exiting"
     exit
 fi
@@ -68,11 +90,9 @@ debug_msg "dev = $dev"
 # Exit if dev = 0
 if [[ "$dev" == "0" ]]; then
     debug_msg "Exiting because dev is zero"
+    send_msg "Network interface unknown."
     exit
 fi
-
-
-# Check if already logged in
 
 
 # Select correct login page according to IP
