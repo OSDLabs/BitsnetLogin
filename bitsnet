@@ -8,7 +8,7 @@ source ~/.local/lib/bitsnet/util.sh
 source ~/.bitsnetrc
 
 # Parse arguments
-while getopts "u:p:dhUo" o; do
+while getopts "u:p:dhUof" o; do
     case "${o}" in
         u)
             username=${OPTARG}
@@ -26,11 +26,18 @@ while getopts "u:p:dhUo" o; do
         o)
             log_out
             ;;
+        f)
+            f=1
+            ;;
         h | * | [?])
             show_help
             ;;
     esac
 done
+if [[ "$f" == "1" ]]; then
+    debug_msg "Forcing login attempt"
+    force_login
+fi
 
 
 debug_msg "Username: $username"

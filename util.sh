@@ -16,6 +16,8 @@ function show_help {
         logout
     -d
         turn debug on
+    -f
+        force login attempt
     -U
         update
     -h
@@ -91,4 +93,12 @@ function router_login() {
 function ldap_login() {
     reply=$(wget -qO- --no-check-certificate --post-data="mode=191&username=$username&password=$password" $login_url)
     echo $reply
+}
+
+function force_login() {
+    router_login
+    reply=$(ldap_login)
+    reply=$(extract_msg $reply)
+    send_msg "$reply"
+    exit
 }

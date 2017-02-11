@@ -27,9 +27,11 @@ Use terminal to issue this command: ```bitsnet```
     -p PASSWORD
         Specify a different password
     -o
-        logout
+        Logout
     -d
         Turn debug on
+    -f
+        Force login attempt
     -U
         Update program
     -h
