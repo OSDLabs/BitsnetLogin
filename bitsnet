@@ -45,18 +45,6 @@ debug_msg "Password: $password"
 debug_msg "LoginURL: $login_url"
 
 
-# Check if using bitsnet
-# This is being implemented by sending a spider request to the local LMS server
-debug_msg "Checking if connected to bitsnet"
-if ! wget -qT 5 -t 1 --spider --no-check-certificate http://photon.bits-goa.ac.in
-then
-    send_msg "Not connected to bitsnet"
-    exit
-else
-    debug_msg "Connected to bitsnet"
-fi
-
-
 # Check if already logged in
 debug_msg "Checking if already connected"
 if wget -qT 5 -t 1 --spider --no-check-certificate https://google.com
