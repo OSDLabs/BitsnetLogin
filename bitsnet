@@ -41,7 +41,6 @@ fi
 
 
 debug_msg "Username: $username"
-debug_msg "Password: $password"
 debug_msg "LoginURL: $login_url"
 
 
