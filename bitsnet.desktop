@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=BITSnet Login
 Comment=Log into the BITSnet with ease!
-Keywords=bitsnet;login;cyberroam
+Keywords=bitsnet;login;cyberroam;captive;portal;
 Exec=bitsnet
 Icon=network-transmit
 Terminal=false

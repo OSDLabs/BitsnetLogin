@@ -16,6 +16,8 @@ function show_help {
         logout
     -d
         turn debug on
+    -f
+        force login attempt
     -U
         update
     -h
@@ -67,6 +69,10 @@ function log_out {
 
 function get_device {
     devInfo="$(nmcli dev | grep " connected" | cut -d " " -f1)"
+    if [[ $devInfo == "virbr"* ]]; then
+        # If the connection is through a virtual bridge, select the next device
+        devInfo=$(echo "$devInfo" | sed 1,1d)
+    fi;
     if [[ $devInfo == "en"* ]]; then
         # ethernet
         dev=1
@@ -91,4 +97,12 @@ function router_login() {
 function ldap_login() {
     reply=$(wget -qO- --no-check-certificate --post-data="mode=191&username=$username&password=$password" $login_url)
     echo $reply
+}
+
+function force_login() {
+    router_login
+    reply=$(ldap_login)
+    reply=$(extract_msg $reply)
+    send_msg "$reply"
+    exit
 }

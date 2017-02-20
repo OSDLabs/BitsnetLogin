@@ -1,8 +1,18 @@
 #!/bin/sh
 
-# Check if curl and wget installed
+# Check if wget installed
 if ! which wget > /dev/null ; then
     echo "wget not installed"
+    exit
+fi
+# Check if git installed for update
+if ! which git > /dev/null ; then
+    echo "git not installed"
+    exit
+fi
+# Check if nmcli installed
+if ! which nmcli > /dev/null ; then
+    echo "nmcli not installed"
     exit
 fi
 
