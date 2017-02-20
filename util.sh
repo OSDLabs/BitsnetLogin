@@ -34,6 +34,10 @@ function debug_msg {
 function extract_msg {
     reply="${reply##*\<message><\![CDATA[}"
     reply=$(echo "$reply" | cut -d']' -f1)
+    if [[ "$reply" == "" ]];
+    then
+        reply="Cannot connect to BITSnet"
+    fi
     echo $reply
 }
 

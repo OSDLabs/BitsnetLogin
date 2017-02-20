@@ -1,4 +1,4 @@
 # Set defaults here
-username="f2015022"
-password="myPass"
-login_url="https://10.1.0.10:8090/httpclient.html"
+username='f2015022'
+password='myPass'
+login_url='https://10.1.0.10:8090/httpclient.html'
