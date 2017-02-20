@@ -31,5 +31,11 @@ cp ./bitsnet ~/.local/bin/bitsnet
 # Create a desktop file
 cp ./bitsnet.desktop ~/.local/share/applications/bitsnet.desktop
 
+# Set to autostart
+if [ ! -d ~/.config/autostart ]; then
+    mkdir -p ~/.config/autostart
+fi
+ln -s ~/.local/share/applications/bitsnet.desktop ~/.config/autostart/bitsnet.desktop
+
 # Create a man page
 # To Be Done
