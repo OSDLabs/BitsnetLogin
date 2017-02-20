@@ -35,7 +35,7 @@ cp ./bitsnet.desktop ~/.local/share/applications/bitsnet.desktop
 if [ ! -d ~/.config/autostart ]; then
     mkdir -p ~/.config/autostart
 fi
-ln -s ~/.local/share/applications/bitsnet.desktop ~/.config/autostart/bitsnet.desktop
+ln -sf ~/.local/share/applications/bitsnet.desktop ~/.config/autostart/bitsnet.desktop
 
 # Create a man page
 # To Be Done
