@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # Load util functions
 source ~/.local/lib/bitsnet/util.sh
 
@@ -77,14 +76,10 @@ if [[ "$dev" == "0" ]]; then
 fi
 
 
-# Select correct login page according to IP
-# and load corresponding login_url
-# Nothing to do here for now
-
-
 # Login
 debug_msg ""
 debug_msg "Logging in"
+# If dev is wifi and IP is not library IP
 if [[ "$dev" == "2" && "$(hostname -I)" != "10.20"* ]]; then
     # Log into the router
     debug_msg "Connected to wifi. Sending request to cisco router form"

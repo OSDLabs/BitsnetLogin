@@ -69,6 +69,10 @@ function log_out {
 
 function get_device {
     devInfo="$(nmcli dev | grep " connected" | cut -d " " -f1)"
+    if [[ $devInfo == "virbr"* ]]; then
+        # If the connection is through a virtual bridge, select the next device
+        devInfo=$(echo "$devInfo" | sed 1,1d)
+    fi;
     if [[ $devInfo == "en"* ]]; then
         # ethernet
         dev=1
