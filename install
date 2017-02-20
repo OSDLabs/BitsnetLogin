@@ -17,7 +17,7 @@ if ! which nmcli > /dev/null ; then
 fi
 
 # Copy config file to the right place
-if ! which bitsnet > /dev/null ; then
+if ! ls -a ~ | grep .bitsnetrc > /dev/null ; then
     cp ./bitsnetrc ~/.bitsnetrc
 fi
 
