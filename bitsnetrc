@@ -1,4 +1,28 @@
-# Set defaults here
-username='f2015022'
-password='myPass'
+#
+# This file is for the user configuration
+# Set some username and passwords according to you priority
+#
+# eg: if you have 2 IDs with 'ID1' being the most used,
+# then write this:
+#
+# username[1]='ID1'
+# password[1]='ID1_password'
+# username[2]='ID2'
+# password[2]='ID2_password'
+#
+# Use can use UNLIMITED ID and password combinations
+
+username[1]='f2015022'
+password[1]='myPass'
+
+username[2]='f2015023'
+password[2]='myPass2'
+
+#
+# Configure features
+
+# Always force login:
+# change to '1' to always use autologin
+f=0
+
 login_url='https://10.1.0.10:8090/httpclient.html'

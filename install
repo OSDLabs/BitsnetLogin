@@ -1,23 +1,29 @@
 #!/bin/sh
 
+echo "Installing BITSnet Login"
+
 # Check if wget installed
+echo "Checking if wget installed"
 if ! which wget > /dev/null ; then
     echo "wget not installed"
     exit
 fi
 # Check if git installed for update
+echo "Checking if git installed"
 if ! which git > /dev/null ; then
     echo "git not installed"
     exit
 fi
 # Check if nmcli installed
+echo "Checking if nmcli installed"
 if ! which nmcli > /dev/null ; then
     echo "nmcli not installed"
     exit
 fi
 
 # Copy config file to the right place
-if ! ls -a ~ | grep .bitsnetrc > /dev/null ; then
+if ! ls -a ~ | grep -x ".bitsnetrc" --quiet ; then
+    echo "Copying bitsnetrc"
     cp ./bitsnetrc ~/.bitsnetrc
 fi
 
@@ -25,17 +31,19 @@ fi
 if [ ! -d ~/.local/lib/bitsnet ]; then
     mkdir ~/.local/lib/bitsnet
 fi
+echo "Copying script"
 cp ./util.sh ~/.local/lib/bitsnet/util.sh
 cp ./bitsnet ~/.local/bin/bitsnet
 
 # Create a desktop file
+echo "Creating app launcher"
 cp ./bitsnet.desktop ~/.local/share/applications/bitsnet.desktop
 
 # Set to autostart
+echo "Setting up autologin"
 if [ ! -d ~/.config/autostart ]; then
     mkdir -p ~/.config/autostart
 fi
 ln -sf ~/.local/share/applications/bitsnet.desktop ~/.config/autostart/bitsnet.desktop
 
-# Create a man page
-# To Be Done
+# TODO: Create a man page
