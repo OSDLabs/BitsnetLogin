@@ -35,31 +35,21 @@ while getopts "u:p:dhUof" o; do
 done
 if [[ "$f" == "1" ]]; then
     debug_msg "Forcing login attempt"
-    force_login
 fi
 
 
-debug_msg "Username: $username"
 debug_msg "LoginURL: $login_url"
 
 
 # Check if already logged in
-debug_msg "Checking if already connected"
-if wget -qT 5 -t 1 --spider --no-check-certificate https://google.com
-then
-    send_msg "Already logged into the BITSnet"
-    exit
+if [[ "$f" != "1" ]]; then
+    debug_msg "Checking if already connected"
+    if wget -qT 5 -t 1 --spider --no-check-certificate https://google.com
+    then
+        send_msg "Already logged into the BITSnet"
+        exit
+    fi
 fi
-
-
-# Check if username or password are empty
-debug_msg "Checking if username or password is empty"
-if [[ ("$username" == "") || ("$password" == "") ]]; then
-    send_msg "Username or password empty"
-    debug_msg "Exiting"
-    exit
-fi
-debug_msg "Not empty"
 
 
 # Check if using wifi or ethernet
@@ -69,7 +59,7 @@ dev=$(get_device)
 debug_msg "dev = $dev"
 
 # Exit if dev = 0
-if [[ "$dev" == "0" ]]; then
+if [[ "$f" == "0" && "$dev" == "0" ]]; then
     debug_msg "Exiting because dev is zero"
     send_msg "Network interface unknown."
     exit
@@ -85,14 +75,26 @@ if [[ "$dev" == "2" && "$(hostname -I)" != "10.20"* ]]; then
     debug_msg "Connected to wifi. Sending request to cisco router form"
     router_login
 fi
+
 # Log into the ldap
 debug_msg "Logging into the LDAP"
-reply=$(ldap_login)
+i=1
+while [[ ! -z ${username[$i]} ]]
+do
+    debug_msg "Trying with ID: ${username[$i]}"
+    reply=$(ldap_login ${username[$i]} ${password[$i]})
 
+    # Extract reply
+    reply=$(extract_msg $reply)
 
-# Extract reply
-debug_msg "Extracting reply"
-reply=$(extract_msg $reply)
+    if [[ "$reply" == "You have successfully logged in" ]]; then
+        break
+    else
+        debug_msg "$reply"
+    fi
+    ((i++))
+
+done
 
 
 # Display reply or send a notification
