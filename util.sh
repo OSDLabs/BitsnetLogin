@@ -95,7 +95,7 @@ function get_device {
 }
 
 function router_login() {
-    wget --post-data="username=$username&password=$password&loginAccept=1&buttonClicked=4&err_flag=0&info_flag=0&Submit=Submit&err_msg=&info_msg=&redirect_url=" https://20.20.2.11/login.html --no-check-certificate --quiet -O /dev/null
+    wget --post-data="username=${username[1]}&password=${password[1]}&loginAccept=1&buttonClicked=4&err_flag=0&info_flag=0&Submit=Submit&err_msg=&info_msg=&redirect_url=" https://20.20.2.11/login.html --no-check-certificate --quiet -O /dev/null
 }
 
 function ldap_login() {
