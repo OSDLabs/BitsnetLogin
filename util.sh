@@ -65,7 +65,7 @@ function update {
 }
 
 function log_out {
-    reply=$(wget -qO- --no-check-certificate --post-data="mode=193&username=$username&submit=Logout" $login_url)
+    reply=$(wget -qO- --no-check-certificate --post-data="mode=193&username=garbage" $login_url)
     reply=$(extract_msg $reply)
     send_msg "$reply"
     exit

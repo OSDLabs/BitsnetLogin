@@ -28,6 +28,10 @@ while getopts "u:p:dhUof" o; do
         f)
             f=1
             ;;
+
+        w)
+            cisco=1
+            ;;
         h | * | [?])
             show_help
             ;;
@@ -66,11 +70,17 @@ if [[ "$f" == "0" && "$dev" == "0" ]]; then
 fi
 
 
+# Log into Cisco Hostel Wifi router if dev = 2
+if [[ "$dev" == "2" && "$(hostname -I)" != "10.20"* ]]; then
+    cisco=1
+fi
+
+
 # Login
 debug_msg ""
 debug_msg "Logging in"
 # If dev is wifi and IP is not library IP
-if [[ "$dev" == "2" && "$(hostname -I)" != "10.20"* ]]; then
+if [[ $cisco == "1" ]]; then
     # Log into the router
     debug_msg "Connected to wifi. Sending request to cisco router form"
     router_login
