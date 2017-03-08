@@ -28,10 +28,9 @@ if ! ls -a ~ | grep -x ".bitsnetrc" --quiet ; then
 fi
 
 # Copy the script to executables
-if [ ! -d ~/.local/lib/bitsnet ]; then
-    mkdir ~/.local/lib/bitsnet
-fi
 echo "Copying script"
+mkdir -p ~/.local/lib/bitsnet
+mkdir -p ~/.local/bin
 cp ./util.sh ~/.local/lib/bitsnet/util.sh
 cp ./bitsnet ~/.local/bin/bitsnet
 
