@@ -34,6 +34,10 @@ Use terminal to issue this command: ```bitsnet```
         Force login attempt
     -U
         Update program
+    -w
+        Force sending request to wireless
+    -q
+        Quiet mode. Don't send a notification
     -h
         Display help
 ```
