@@ -7,7 +7,7 @@ source ~/.local/lib/bitsnet/util.sh
 source ~/.bitsnetrc
 
 # Parse arguments
-while getopts "u:p:dhUof" o; do
+while getopts "u:p:dhUofwq" o; do
     case "${o}" in
         u)
             username=${OPTARG}
@@ -31,6 +31,9 @@ while getopts "u:p:dhUof" o; do
 
         w)
             cisco=1
+            ;;
+        q)
+            quiet=1
             ;;
         h | * | [?])
             show_help

@@ -20,6 +20,10 @@ function show_help {
         force login attempt
     -U
         update
+    -w
+        Force sending request to wireless
+    -q
+        Quiet mode. Don't send a notification
     -h
         display help"
     exit
@@ -42,7 +46,7 @@ function extract_msg {
 }
 
 function send_msg {
-    if [[ debug -eq 0 ]]; then
+    if [[ $debug == 0 || $quiet != 1 ]]; then
         notify-send 'BITSnet' "$1" --icon=network-transmit
     else
         debug_msg "reply: $1"
