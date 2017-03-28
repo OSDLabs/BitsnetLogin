@@ -47,7 +47,7 @@ function extract_msg {
 
 function send_msg {
     if [[ $debug == 0 || $quiet != 1 ]]; then
-        notify-send 'BITSnet' "$1" --icon=network-transmit
+        notify-send 'BITSnet' "$1" --icon=network-transmit --hint=int:transient:1
     else
         debug_msg "reply: $1"
     fi
