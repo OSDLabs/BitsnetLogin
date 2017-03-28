@@ -1,7 +1,8 @@
 #
 # This file is for the user configuration
-# Set some username and passwords according to you priority
+# Uncomment lines to activate
 #
+# Set some usernames and passwords according to your priority
 # eg: if you have 2 IDs with 'ID1' being the most used,
 # then write this:
 #
@@ -12,12 +13,6 @@
 #
 # Use can use UNLIMITED ID and password combinations
 
-username[1]='f2015022'
-password[1]='myPass'
-
-username[2]='f2015023'
-password[2]='myPass2'
-
 #
 # Configure features
 
@@ -25,4 +20,18 @@ password[2]='myPass2'
 # change to '1' to always use autologin
 f=0
 
+# Always use debug mode:
+# change to '1' to always use debug mode
+debug=0
+
+# Always force login to hostel wifi router:
+# change to '1' to always send login request to hostel router
+cisco=0
+
+# Quiet mode
+# change to '1' to never send notification on login
+quiet=0
+
+
+# Change to custom login url if required
 login_url='https://10.1.0.10:8090/httpclient.html'

@@ -1,10 +1,39 @@
 #!/bin/bash
 
 # Load util functions
-source ~/.local/lib/bitsnet/util.sh
+if ! source /usr/lib/bitsnet/util.sh > /dev/null
+then
+    echo "Could not load util file"
+    echo "Reinstall program"
+    notify-send 'BITSnet' "Please reinstall program" \
+        --icon=network-transmit --hint=int:transient:1
+    exit 1
+fi
 
 # Add a configuration file
-source ~/.bitsnetrc
+if ! grep -s "username\[1\]" ~/.bitsnetrc > /dev/null
+then
+    echo "No bitsnetrc found"
+
+    echo -n "Creating a bitsnetrc file... "
+    if ! cp /etc/bitsnet/bitsnetrc ~/.bitsnetrc
+    then
+        echo "failed"
+        exit 1
+    else
+        echo "done"
+    fi
+else
+    source ~/.bitsnetrc
+fi
+
+if [[ ${username[1]} == "" ]]
+then
+    echo "Please add credentials to ~/.bitsnetrc"
+    notify-send 'BITSnet' "Please add credentials to ~/.bitsnetrc" \
+        --icon=network-transmit --hint=int:transient:1
+    exit 1
+fi
 
 # Parse arguments
 while getopts "u:p:dhUofwq" o; do
