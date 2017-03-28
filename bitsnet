@@ -39,10 +39,10 @@ fi
 while getopts "u:p:dhUofwq" o; do
     case "${o}" in
         u)
-            username=${OPTARG}
+            username[1]=${OPTARG}
             ;;
         p)
-            password=${OPTARG}
+            password[1]=${OPTARG}
             ;;
         d)
             debug=1
