@@ -69,7 +69,7 @@ function update {
 }
 
 function log_out {
-    reply=$(wget -qO- --no-check-certificate --post-data="mode=193&username=garbage" $login_url)
+    reply=$(wget -qO- --no-check-certificate --post-data="mode=193&username=garbage" $login_url -O /dev/null)
     reply=$(extract_msg $reply)
     send_msg "$reply"
     exit
@@ -103,6 +103,6 @@ function router_login() {
 }
 
 function ldap_login() {
-    reply=$(wget -qO- --no-check-certificate --post-data="mode=191&username=$1&password=$2" $login_url)
+    reply=$(wget -qO- --no-check-certificate --post-data="mode=191&username=$1&password=$2" $login_url -O /dev/null)
     echo $reply
 }

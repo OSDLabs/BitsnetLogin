@@ -80,7 +80,7 @@ debug_msg "LoginURL: $login_url"
 # Check if already logged in
 if [[ "$f" != "1" ]]; then
     debug_msg "Checking if already connected"
-    if wget -qT 5 -t 1 --spider --no-check-certificate https://google.com
+    if wget -qT 5 -t 1 --spider --no-check-certificate https://google.com -O /dev/null
     then
         send_msg "Already logged into the BITSnet"
         exit
