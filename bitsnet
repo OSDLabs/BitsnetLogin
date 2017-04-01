@@ -1,20 +1,35 @@
 #!/bin/bash
 
+#
+# bitsnet
+# Script for logging into the bitsnet
+#
+
+
+#
 # Load util functions
+#
 if ! source /usr/lib/bitsnet/util.sh > /dev/null
 then
+    # not found
     echo "Could not load util file"
     echo "Reinstall program"
+
     notify-send 'BITSnet' "Please reinstall program" \
         --icon=network-transmit --hint=int:transient:1
     exit 1
 fi
 
+
+#
 # Add a configuration file
+#
 if ! grep -s "username\[1\]" ~/.bitsnetrc > /dev/null
 then
+    # not found
     echo "No bitsnetrc found"
 
+    # create a new bitsnetrc file from the sample file
     echo -n "Creating a bitsnetrc file... "
     if ! cp /etc/bitsnet/bitsnetrc ~/.bitsnetrc
     then
@@ -27,6 +42,10 @@ else
     source ~/.bitsnetrc
 fi
 
+
+#
+# check if we can find at least one pair of credentials
+#
 if [[ ${username[1]} == "" ]]
 then
     echo "Please add credentials to ~/.bitsnetrc"
@@ -35,7 +54,10 @@ then
     exit 1
 fi
 
+
+#
 # Parse arguments
+#
 while getopts "u:p:dhUofwq" o; do
     case "${o}" in
         u)
@@ -66,35 +88,51 @@ while getopts "u:p:dhUofwq" o; do
             ;;
         h | * | [?])
             show_help
+            exit 1
             ;;
     esac
 done
+
+
+#
+# check if login is forced
+#
 if [[ "$f" == "1" ]]; then
     debug_msg "Forcing login attempt"
 fi
 
 
+#
+# display login url for debugging
+#
 debug_msg "LoginURL: $login_url"
 
 
-# Check if already logged in
+#
+# Check and exit if already logged in
+#
 if [[ "$f" != "1" ]]; then
     debug_msg "Checking if already connected"
     if wget -qT 5 -t 1 --spider --no-check-certificate https://google.com -O /dev/null
     then
         send_msg "Already logged into the BITSnet"
-        exit
+        exit 0
     fi
 fi
 
 
-# Check if using wifi or ethernet
+#
+# Get device info
+#
 debug_msg ""
 debug_msg "Checking device info"
 dev=$(get_device)
 debug_msg "dev = $dev"
 
+
+#
 # Exit if dev = 0
+#
 if [[ "$f" == "0" && "$dev" == "0" ]]; then
     debug_msg "Exiting because dev is zero"
     send_msg "Network interface unknown."
@@ -102,23 +140,31 @@ if [[ "$f" == "0" && "$dev" == "0" ]]; then
 fi
 
 
-# Log into Cisco Hostel Wifi router if dev = 2
+#
+# Log into Cisco Hostel Wifi router if dev = 2 and IP is not of library
+#
 if [[ "$dev" == "2" && "$(hostname -I)" != "10.20"* ]]; then
     cisco=1
+    debug_msg "Connected to hostel wifi"
 fi
 
 
-# Login
+#
+# Login to the Cisco hostel wifi router
+#
 debug_msg ""
 debug_msg "Logging in"
-# If dev is wifi and IP is not library IP
 if [[ $cisco == "1" ]]; then
-    # Log into the router
-    debug_msg "Connected to wifi. Sending request to cisco router form"
+    debug_msg "Sending request to cisco router form"
     router_login
 fi
 
+
+#
 # Log into the ldap
+# All ID in the username array from bitsnetrc file are tried
+# exit when successful login
+#
 debug_msg "Logging into the LDAP"
 i=1
 while [[ ! -z ${username[$i]} ]]
@@ -129,6 +175,7 @@ do
     # Extract reply
     reply=$(extract_msg $reply)
 
+    # if logged in, get out
     if [[ "$reply" == "You have successfully logged in" ]]; then
         break
     else
@@ -139,13 +186,17 @@ do
 done
 
 
+#
 # Display reply or send a notification
+#
 debug_msg ""
 send_msg "$reply"
 debug_msg "Reply sent"
 
 
+#
 # Exit
+#
 debug_msg ""
 debug_msg "Exiting"
-exit
+exit 0
