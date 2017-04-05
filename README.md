@@ -38,28 +38,22 @@ Use terminal to issue this command: ```bitsnet```
 ```
 
 ## How to install
-Fire up a terminal and issue these commands:
+- Fire up a terminal and issue these commands:
 ```
 git clone https://github.com/OSDLabs/BitsnetLogin
 cd BitsnetLogin
-```
-- Open the bitsnetrc file and specify your username and password
-- Save and close
-NOTE: You'll need to use this command if upgrading from version 1.x.x:
-```
-rm ~/.bitsnetrc
-```
-- Install the application:
-```
 ./install
 ```
-You can now login via terminal (```bitsnet```) or by launching the app
+- You can now login via terminal (`bitsnet`) or by launching the app from launcher
+- Run `man bitsnet` or `bitsnet -h` for help
+
+NOTE: You'll need to use this command if upgrading from version 1.x.x: `rm ~/.bitsnetrc`
 
 ## Suggestion, comments or complaints
 You can add your suggestions, complaints or any bugs you find [here](https://github.com/OSDLabs/BitsnetLogin/issues).
 
 ## Author
-[UTkarsh Maheshwari](https://github.com/UtkarshMe),
+[UTkarsh Maheshwari](https://github.com/UtkarshMe),  
 **[OSDLabs](https://github.com/OSDLabs)**
 
 ## License

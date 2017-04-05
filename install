@@ -1,48 +1,132 @@
 #!/bin/sh
 
+sudo -v
+
 echo "Installing BITSnet Login"
 
+echo
+echo "Checking dependencies"
+echo
+
 # Check if wget installed
-echo "Checking if wget installed"
+echo -n "Checking if wget installed... "
 if ! which wget > /dev/null ; then
+    echo "no"
     echo "wget not installed"
-    exit
+    exit 1
+else
+    echo "yes"
 fi
 # Check if git installed for update
-echo "Checking if git installed"
+echo -n "Checking if git installed... "
 if ! which git > /dev/null ; then
+    echo "no"
     echo "git not installed"
-    exit
+    exit 1
+else
+    echo "yes"
+fi
+# Check if libnotify installed
+echo -n "Checking if libnotify installed... "
+if ! which notify-send > /dev/null ; then
+    echo "no"
+    echo "libnotify not installed"
+    exit 1
+else
+    echo "yes"
 fi
 # Check if nmcli installed
-echo "Checking if nmcli installed"
+echo -n "Checking if nmcli installed... "
 if ! which nmcli > /dev/null ; then
+    echo "no"
     echo "nmcli not installed"
-    exit
+    exit 1
+else
+    echo "yes"
 fi
 
-# Copy config file to the right place
-if ! ls -a ~ | grep -x ".bitsnetrc" --quiet ; then
-    echo "Copying bitsnetrc"
-    cp ./bitsnetrc ~/.bitsnetrc
-fi
+echo
+echo "All dependencies satisfied"
+echo
 
+
+echo -n "Copying script... "
 # Copy the script to executables
-echo "Copying script"
-mkdir -p ~/.local/lib/bitsnet
-mkdir -p ~/.local/bin
-cp ./util.sh ~/.local/lib/bitsnet/util.sh
-cp ./bitsnet ~/.local/bin/bitsnet
+if [ ! -d /usr/lib/bitsnet ]; then
+    if ! sudo mkdir /usr/lib/bitsnet
+    then
+        echo "failed"
+        exit 1
+    fi
+fi
+if ! sudo cp ./util.sh /usr/lib/bitsnet/util.sh
+then
+    echo "failed"
+    exit 1
+fi
+if ! sudo cp ./bitsnet /usr/bin/bitsnet
+then
+    echo "failed"
+    exit 1
+fi
+echo "done"
+
+
+# Copy config file to the etc
+echo -n "Copying config file to etc... "
+if [ ! -d /etc/bitsnet ]; then
+    if ! sudo mkdir /etc/bitsnet
+    then
+        echo "failed"
+        exit 1
+    fi
+fi
+if ! sudo cp ./bitsnetrc /etc/bitsnet/bitsnetrc
+then
+    echo "failed"
+    exit 1
+fi
+echo "done"
+
 
 # Create a desktop file
-echo "Creating app launcher"
-cp ./bitsnet.desktop ~/.local/share/applications/bitsnet.desktop
+echo -n "Creating app launcher... "
+if ! sudo cp ./bitsnet.desktop /usr/share/applications/bitsnet.desktop
+then
+    echo "failed"
+    exit 1
+else
+    echo "done"
+fi
 
 # Set to autostart
-echo "Setting up autologin"
+echo -n "Setting up autologin... "
 if [ ! -d ~/.config/autostart ]; then
-    mkdir -p ~/.config/autostart
+    if ! mkdir -p ~/.config/autostart
+    then
+        echo "failed"
+        exit 1
+    fi
 fi
-ln -sf ~/.local/share/applications/bitsnet.desktop ~/.config/autostart/bitsnet.desktop
+if ! ln -sf /usr/share/applications/bitsnet.desktop ~/.config/autostart/bitsnet.desktop
+then
+    echo "failed"
+    exit 1
+fi
+echo "done"
 
-# TODO: Create a man page
+
+# Create manpage
+echo -n "Creating man page... "
+if ! sudo cp ./bitsnet.1.gz /usr/share/man/man1/
+then
+    echo "failed"
+    exit 1
+else
+    echo "done"
+fi
+
+echo
+echo "BITSnet Login installed"
+echo "run man bitsnet for usage"
+exit 0
