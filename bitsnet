@@ -16,7 +16,7 @@ then
     echo "Reinstall program"
 
     notify-send 'BITSnet' "Please reinstall program" \
-        --icon=network-transmit --hint=int:transient:1
+        --icon=network-transmit --hint=int:transient:1 || echo "Please reinstall program" || exit 1
     exit 1
 fi
 
@@ -170,10 +170,10 @@ i=1
 while [[ ! -z ${username[$i]} ]]
 do
     debug_msg "Trying with ID: ${username[$i]}"
-    reply=$(ldap_login ${username[$i]} ${password[$i]})
+    reply=$(ldap_login "${username[$i]}" "${password[$i]}")
 
     # Extract reply
-    reply=$(extract_msg $reply)
+    reply=$(extract_msg "$reply")
 
     # if logged in, get out
     if [[ "$reply" == "You have successfully logged in" ]]; then

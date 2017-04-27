@@ -56,7 +56,7 @@ function extract_msg {
     then
         reply="Cannot connect to BITSnet"
     fi
-    echo $reply
+    echo "$reply"
 }
 
 #
@@ -102,7 +102,7 @@ function get_device {
 # Login to the router
 #
 function router_login() {
-    wget --post-data="username=${username[1]}&password=${password[1]}&loginAccept=1&buttonClicked=4&err_flag=0&info_flag=0&Submit=Submit&err_msg=&info_msg=&redirect_url=" https://20.20.2.11/login.html --no-check-certificate --quiet -O /dev/null
+    wget --post-data="username=${username[1]}&password=${password[1]}&loginAccept=1&buttonClicked=4&err_flag=0&info_flag=0&Submit=Submit&err_msg=&info_msg=&redirect_url=" "https://20.20.2.11/login.html" --no-check-certificate --quiet -O /dev/null
 }
 
 #
@@ -110,16 +110,16 @@ function router_login() {
 # returns reply
 #
 function ldap_login() {
-    reply=$(wget -qO- --no-check-certificate --post-data="mode=191&username=$1&password=$2" $login_url)
-    echo $reply
+    reply=$(wget -qO- --no-check-certificate --post-data="mode=191&username=$1&password=$2" "$login_url")
+    echo "$reply"
 }
 
 #
 # Send a logout request
 #
 function log_out {
-    reply=$(wget -qO- --no-check-certificate --post-data="mode=193&username=garbage" $login_url -O /dev/null)
-    reply=$(extract_msg $reply)
+    reply=$(wget -qO- --no-check-certificate --post-data="mode=193&username=garbage" "$login_url" -O /dev/null)
+    reply=$(extract_msg "$reply")
     send_msg "$reply"
     exit 0
 }
@@ -129,14 +129,14 @@ function log_out {
 #
 function update {
     debug_msg "Updating"
-    cd /tmp
+    cd /tmp || exit 1
     debug_msg "Cloning repo"
-    git clone https://github.com/OSDLabs/BitsnetLogin
-    cd BitsnetLogin
+    git clone --depth=1 https://github.com/OSDLabs/BitsnetLogin
+    cd BitsnetLogin || exit 1
     debug_msg "Installing"
     ./install
     echo "Updated"
-    cd /tmp
+    cd /tmp || exit 1
     rm -rf BitsnetLogin
     debug_msg "Exiting"
     exit 0
