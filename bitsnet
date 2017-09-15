@@ -118,23 +118,6 @@ debug_msg "LoginURL: $login_url"
 
 
 #
-# Check and exit if already logged in.
-# Skip check if forced
-#
-if [[ $force -ne 1 ]]; then
-    debug_msg "Checking if already connected"
-    if wget -qT 5 -t 1 --spider --no-check-certificate https://google.com \
-        -O /dev/null
-    then
-        send_msg "Already logged into the BITSnet"
-        exit 0
-    else
-        debug_msg "Not logged in"
-    fi
-fi
-
-
-#
 # Get device info
 #
 debug_msg "Checking device info"
@@ -151,6 +134,23 @@ if [[ "$dev" == "" && $force -ne 1 ]]; then
     debug_msg "Use -f option if you think this is a mistake"
     send_msg "Network interface unknown."
     exit 1
+fi
+
+
+#
+# Check and exit if already logged in.
+# Skip check if forced
+#
+if [[ $force -ne 1 ]]; then
+    debug_msg "Checking if already connected"
+    if wget -qT 5 -t 1 --spider --no-check-certificate https://google.com \
+        -O /dev/null
+    then
+        send_msg "Already logged into the BITSnet"
+        exit 0
+    else
+        debug_msg "Not logged in"
+    fi
 fi
 
 
