@@ -143,8 +143,8 @@ fi
 #
 if [[ $force -ne 1 ]]; then
     debug_msg "Checking if already connected"
-    if wget -qT 5 -t 1 --spider --no-check-certificate https://google.com \
-        -O /dev/null
+    if wget --quiet --timeout=5 --tries=1 --spider --no-check-certificate \
+        --output-file=/dev/null https://google.com
     then
         send_msg "Already logged into the BITSnet"
         exit 0

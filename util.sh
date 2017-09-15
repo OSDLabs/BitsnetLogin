@@ -74,7 +74,9 @@ function get_device {
 # Login to the router
 #
 function router_login() {
-    wget --post-data="username=${username[1]}&password=${password[1]}&loginAccept=1&buttonClicked=4&err_flag=0&info_flag=0&Submit=Submit&err_msg=&info_msg=&redirect_url=" "https://20.20.2.11/login.html" --no-check-certificate --quiet -O /dev/null
+    wget --post-data="username=${username[1]}&password=${password[1]}&loginAccept=1&buttonClicked=4&err_flag=0&info_flag=0&Submit=Submit&err_msg=&info_msg=&redirect_url=" \
+        --no-check-certificate --quiet --output-file=/dev/null \
+        "https://20.20.2.11/login.html"
 }
 
 #
@@ -82,7 +84,8 @@ function router_login() {
 # returns reply
 #
 function ldap_login() {
-    reply=$(wget -qO- --no-check-certificate --post-data="mode=191&username=$1&password=$2" "$login_url")
+    reply=$(wget --quiet -O- --no-check-certificate \
+        --post-data="mode=191&username=$1&password=$2" "$login_url")
     echo "$reply"
 }
 
@@ -90,7 +93,8 @@ function ldap_login() {
 # Send a logout request
 #
 function log_out {
-    reply=$(wget -qO- --no-check-certificate --post-data="mode=193&username=garbage" "$login_url" -O /dev/null)
+    reply=$(wget --quiet -O- --no-check-certificate \
+        --post-data="mode=193&username=garbage" "$login_url")
     reply=$(extract_msg "$reply")
     send_msg "$reply"
     exit 0
