@@ -16,7 +16,8 @@ then
     echo "Reinstall program"
 
     notify-send 'BITSnet' "Please reinstall program" \
-        --icon=network-transmit --hint=int:transient:1 || echo "Please reinstall program" || exit 1
+        --icon=network-transmit --hint=int:transient:1 || \
+        echo "Please reinstall program" || exit 1
     exit 1
 fi
 
@@ -39,7 +40,15 @@ then
         echo "done"
     fi
 else
-    source ~/.bitsnetrc
+    source "$HOME/.bitsnetrc"
+fi
+
+
+#
+# if library ip is not loaded, load it
+#
+if [[ -z $library_ip ]]; then
+    library_ip="10.20.0.1"
 fi
 
 
@@ -77,11 +86,11 @@ while getopts "u:p:dhUofwq" o; do
             log_out
             ;;
         f)
-            f=1
+            force=1
             ;;
 
         w)
-            cisco=1
+            hostel=1
             ;;
         q)
             quiet=1
@@ -97,7 +106,7 @@ done
 #
 # check if login is forced
 #
-if [[ "$f" == "1" ]]; then
+if [[ $force -eq 1 ]]; then
     debug_msg "Forcing login attempt"
 fi
 
@@ -109,14 +118,18 @@ debug_msg "LoginURL: $login_url"
 
 
 #
-# Check and exit if already logged in
+# Check and exit if already logged in.
+# Skip check if forced
 #
-if [[ "$f" != "1" ]]; then
+if [[ $force -ne 1 ]]; then
     debug_msg "Checking if already connected"
-    if wget -qT 5 -t 1 --spider --no-check-certificate https://google.com -O /dev/null
+    if wget -qT 5 -t 1 --spider --no-check-certificate https://google.com \
+        -O /dev/null
     then
         send_msg "Already logged into the BITSnet"
         exit 0
+    else
+        debug_msg "Not logged in"
     fi
 fi
 
@@ -124,39 +137,44 @@ fi
 #
 # Get device info
 #
-debug_msg ""
 debug_msg "Checking device info"
 dev=$(get_device)
 debug_msg "dev = $dev"
 
 
 #
-# Exit if dev = 0
+# Exit if dev is unknown and login attempt is not forced
 #
-if [[ "$f" == "0" && "$dev" == "0" ]]; then
-    debug_msg "Exiting because dev is zero"
+if [[ "$dev" == "" && $force -ne 1 ]]; then
+    debug_msg "Exiting because dev is empty."
+    debug_msg "Make sure you're connected to a network interface"
+    debug_msg "Use -f option if you think this is a mistake"
     send_msg "Network interface unknown."
     exit 1
 fi
 
 
 #
-# Log into Cisco Hostel Wifi router if dev = 2 and IP is not of library
+# Check if it's the hostel wifi
+# ip is hostel's and we're on wireless
 #
-if [[ "$dev" == "2" && "$(hostname -I)" != "10.20"* ]]; then
-    cisco=1
-    debug_msg "Connected to hostel wifi"
+debug_msg "ip = $(get_ip)"
+debug_msg "library_ip = $library_ip"
+if [[ "$hostel" -eq 0 && $dev =~ ^wl && "$(get_ip)" != "$library_ip" ]]; then
+    hostel=1;
 fi
 
 
 #
-# Login to the Cisco hostel wifi router
+# Login to the hostel wifi router
 #
-debug_msg ""
 debug_msg "Logging in"
-if [[ $cisco == "1" ]]; then
-    debug_msg "Sending request to cisco router form"
+if [[ $hostel -eq 1 ]]; then
+    debug_msg "Connected to hostel wifi"
+    debug_msg "Sending request to hostel router"
     router_login
+else
+    debug_msg "Not connected to the hostel wifi"
 fi
 
 
@@ -182,21 +200,18 @@ do
         debug_msg "$reply"
     fi
     ((i++))
-
 done
 
 
 #
 # Display reply or send a notification
 #
-debug_msg ""
-send_msg "$reply"
 debug_msg "Reply sent"
+send_msg "$reply"
 
 
 #
 # Exit
 #
-debug_msg ""
-debug_msg "Exiting"
+debug_msg "Bye"
 exit 0

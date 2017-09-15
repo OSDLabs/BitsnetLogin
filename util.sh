@@ -9,30 +9,10 @@ RESET="$(tput sgr0)"
 
 #
 # Display help msg on screen
+# use man page for that
 #
 function show_help {
-    echo "Usage: "
-    echo "bitsnet [OPTIONS]"
-    echo
-    echo "Options:
-    -u USERNAME 
-        use specific username
-    -p PASSWORD
-        specify a different password
-    -o
-        logout
-    -d
-        turn debug on
-    -f
-        force login attempt
-    -U
-        update
-    -w
-        Force sending request to wireless
-    -q
-        Quiet mode. Don't send a notification
-    -h
-        display help"
+    man bitsnet
 }
 
 #
@@ -42,6 +22,13 @@ function debug_msg {
     if [[ debug -eq 1 ]]; then
         echo "${GREEN}DEBUG:${RESET} $1"
     fi
+}
+
+#
+# Return IP address of the current route
+#
+function get_ip() {
+    ip route show | grep -o '[0-9]\+[.][0-9]\+[.][0-9]\+[.][0-9]\+' | head -1
 }
 
 #
@@ -63,7 +50,7 @@ function extract_msg {
 # Send notification if enabled
 #
 function send_msg {
-    if [[ $debug == 0 && $quiet != 1 ]]; then
+    if [[ $debug -eq 0 && $quiet -ne 1 ]]; then
         notify-send 'BITSnet' "$1" --icon=network-transmit --hint=int:transient:1
     else
         debug_msg "reply: $1"
@@ -74,28 +61,13 @@ function send_msg {
 # Get device info
 #
 function get_device {
-    devInfo="$(nmcli dev | grep " connected" | cut -d " " -f1)"
-
-    # If the connection is through a virtual bridge, select the next device
-    if [[ $devInfo == "virbr"* ]]; then
-        devInfo=$(echo "$devInfo" | sed 1,1d)
-    fi;
-
-    if [[ $devInfo == "en"* ]]; then
-        # ethernet
-        dev=1
-    elif [[ $devInfo == "wl"* ]]; then
-        # wifi
-        dev=2
-    elif [[ $devInfo == "virbr"* ]]; then
-        # virtual bridge
-        dev=3
-    else
-        # unknown
-        dev=0
-    fi
-
-    echo "$dev"
+    for device in /sys/class/net/* ; do
+        dev_state=$(cat "$device/operstate")
+        if [[ "$dev_state" == "up" ]]; then
+            # retain the part after the last '/' ie the interface name
+            echo "${device##*/}"
+        fi
+    done
 }
 
 #

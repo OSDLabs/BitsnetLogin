@@ -35,15 +35,6 @@ if ! which notify-send > /dev/null ; then
 else
     echo "yes"
 fi
-# Check if nmcli installed
-echo -n "Checking if nmcli installed... "
-if ! which nmcli > /dev/null ; then
-    echo "no"
-    echo "nmcli not installed"
-    exit 1
-else
-    echo "yes"
-fi
 
 echo
 echo "All dependencies satisfied"

@@ -32,6 +32,10 @@ cisco=0
 # change to '1' to never send notification on login
 quiet=0
 
+# Hostel IP address
+# can be found by running the following command (without '#') when on hostel wifi:
+# ip route show | grep -o '[0-9]\+[.][0-9]\+[.][0-9]\+[.][0-9]\+' | head -1
+library_ip="10.20.0.1"
 
 # Change to custom login url if required
 login_url='https://10.1.0.10:8090/httpclient.html'
