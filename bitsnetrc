@@ -18,7 +18,7 @@
 
 # Always force login:
 # change to '1' to always use autologin
-f=0
+force=0
 
 # Always use debug mode:
 # change to '1' to always use debug mode
@@ -26,7 +26,7 @@ debug=0
 
 # Always force login to hostel wifi router:
 # change to '1' to always send login request to hostel router
-cisco=0
+hostel=0
 
 # Quiet mode
 # change to '1' to never send notification on login
