@@ -2,13 +2,13 @@
 This is a script for logging into the Captive Portal at BITS Goa
 
 ## Features
-- Save your username and password once and login with ease
+- Save your username and password once and login with ease.
 - Use UNLIMITED accounts to login. (You'll need the ID and password, of course)
-- Logout if necessary
-- Use CLI or App
-- Use another username and password temporarily when out of data
-- Update from the CLI with single command
-- Easy install script
+- Logout from the commandline. No need to keep the login page open.
+- Use CLI or App.
+- Update from the CLI with single command.
+- Man page for integrated experience with the GNU/Linux desktop
+- Easy installation.
 
 ## Usage
 Use the installed app from launcher
@@ -23,22 +23,20 @@ Use terminal to issue this command: ```bitsnet```
         Specify a different password
     -o
         Logout
-    -d
-        Turn debug on
     -f
         Force login attempt
     -U
         Update program
-    -w
-        Force sending request to wireless
     -q
         Quiet mode. Don't send a notification
     -h
         Display help
+    -d
+        Turn debug on
 ```
 
 ## How to install
-- Fire up a terminal and issue these commands:
+- Fire up a terminal and punch in these commands:
 ```
 git clone https://github.com/OSDLabs/BitsnetLogin
 cd BitsnetLogin
