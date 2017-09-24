@@ -158,24 +158,24 @@ fi
 # Check if it's the hostel wifi
 # ip is hostel's and we're on wireless
 #
-debug_msg "ip = $(get_ip)"
-debug_msg "library_ip = $library_ip"
-if [[ "$hostel" -eq 0 && $dev =~ ^wl && "$(get_ip)" != "$library_ip" ]]; then
-    hostel=1;
-fi
+#debug_msg "ip = $(get_ip)"
+#debug_msg "library_ip = $library_ip"
+#if [[ "$hostel" -eq 0 && $dev =~ ^wl && "$(get_ip)" != "$library_ip" ]]; then
+    #hostel=1;
+#fi
 
 
 #
 # Login to the hostel wifi router
 #
-debug_msg "Logging in"
-if [[ $hostel -eq 1 ]]; then
-    debug_msg "Connected to hostel wifi"
-    debug_msg "Sending request to hostel router"
-    router_login
-else
-    debug_msg "Not connected to the hostel wifi"
-fi
+#debug_msg "Logging in"
+#if [[ $hostel -eq 1 ]]; then
+    #debug_msg "Connected to hostel wifi"
+    #debug_msg "Sending request to hostel router"
+    #router_login
+#else
+    #debug_msg "Not connected to the hostel wifi"
+#fi
 
 
 #
