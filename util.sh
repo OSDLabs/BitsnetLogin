@@ -6,6 +6,11 @@
 # Used to format output on terminal
 GREEN="$(tput setaf 2)"
 RESET="$(tput sgr0)"
+quiet=1
+debug=1
+username=1
+password=1
+login_url=1
 
 #
 # Display help msg on screen
@@ -51,7 +56,7 @@ function extract_msg {
 #
 function send_msg {
     if [[ $debug -eq 0 && $quiet -ne 1 ]]; then
-        notify-send 'BITSnet' "$1" --icon=network-transmit --hint=int:transient:1
+        notify-send 'BITSnet' "$1" --icon=network-transmit --hint=int:transient:1 --app-name=bitsnet --urgency=low --category=Internet
     else
         debug_msg "reply: $1"
     fi
