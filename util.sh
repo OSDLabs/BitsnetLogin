@@ -115,7 +115,7 @@ function update {
     git clone --depth=1 https://github.com/OSDLabs/BitsnetLogin
     cd BitsnetLogin || exit 1
     debug_msg "Installing"
-    ./install
+    sudo make install
     echo "Updated"
     cd /tmp || exit 1
     rm -rf BitsnetLogin
