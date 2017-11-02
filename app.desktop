@@ -2,7 +2,7 @@
 Name=BITSnet Login
 Comment=Log into the BITSnet with ease!
 Keywords=bitsnet;login;cyberroam;captive;portal;
-Exec=cd /tmp && /usr/bin/bitsnet
+Exec=cd /tmp && /usr/local/bin/bitsnet
 Icon=network-transmit
 Terminal=false
 Type=Application

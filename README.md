@@ -40,7 +40,8 @@ Use terminal to issue this command: ```bitsnet```
 ```
 git clone https://github.com/OSDLabs/BitsnetLogin
 cd BitsnetLogin
-./install
+make
+sudo make install
 ```
 - You can now login via terminal (`bitsnet`) or by launching the app from launcher
 - Run `man bitsnet` or `bitsnet -h` for help

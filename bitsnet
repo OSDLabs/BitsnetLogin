@@ -9,7 +9,8 @@
 #
 # Load util functions
 #
-if ! source /usr/lib/bitsnet/util.sh > /dev/null
+# shellcheck source=/dev/null
+if ! source /usr/local/lib/bitsnet/util.sh > /dev/null
 then
     # not found
     echo "Could not load util file"
@@ -32,7 +33,7 @@ then
 
     # create a new bitsnetrc file from the sample file
     echo -n "Creating a bitsnetrc file... "
-    if ! cp /etc/bitsnet/bitsnetrc ~/.bitsnetrc
+    if ! cp /usr/local/etc/bitsnet/bitsnetrc ~/.bitsnetrc
     then
         echo "failed"
         exit 1

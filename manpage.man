@@ -1,0 +1,67 @@
+.TH BITSNET 1 "May 2017" "version 2.2"
+
+
+.SH NAME
+bitsnet - log into the bitsnet
+
+
+.SH SYNOPSIS
+.B bitsnet
+.I [OPTIONS]
+
+
+.SH DESCRIPTION
+.B BitsnetLogin
+is a command line tool for logging into the Captive Portal at
+.B Bits Goa
+
+.IP -u
+.I USERNAME 
+use specific username
+
+.IP -p
+.I PASSWORD
+specify a different password
+
+.IP -o
+logout
+
+.IP -f
+force login attempt
+
+.IP -U
+update
+
+.IP -q
+Quiet mode. Don't send a notification
+
+.IP -h
+display help
+
+.IP -d
+turn debug on
+
+
+.SH AUTHOR
+Written by Utkarsh Maheshwari of OSDLabs at BITS Goa
+
+
+.SH REPORTING BUGS
+Report bugs at Github page:
+.I <https://github.com/OSDLabs/BitsnetLogin>
+
+
+.SH COPYRIGHT
+Copyright © 2017
+.B UTkarsh Maheshwari, OSDLabs.
+License GPLv3+: GNU GPL version 3 or later
+.I <https://github.com/OSDLabs/BitsnetLogin/blob/master/LICENSE>.
+This is free software: you are free  to  change  and  redistribute  it.
+There is NO WARRANTY, to the extent permitted by law.
+
+
+.SH SEE ALSO
+Other projects of author at
+.I <https://github.com/UtkarshMe>.
+Other projects of OSDLabs at
+.I <https://github.com/OSDLabs>
