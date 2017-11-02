@@ -37,11 +37,12 @@ Use terminal to issue this command: ```bitsnet```
 
 ## How to install
 - Fire up a terminal and punch in these commands:
-```
+```bash
 git clone https://github.com/OSDLabs/BitsnetLogin
 cd BitsnetLogin
 make
 sudo make install
+make uninstall # to uninstall
 ```
 - You can now login via terminal (`bitsnet`) or by launching the app from launcher
 - Run `man bitsnet` or `bitsnet -h` for help

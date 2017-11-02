@@ -40,6 +40,17 @@ install: all
 	cp ./app.desktop $(DESTDIR)/usr/local/share/applications/bitsnet.desktop
 	echo "OK"
 
+uninstall:
+	echo
+	echo "Removing files"
+	rm -f $(DESTDIR)/usr/local/lib/bitsnet/util.sh
+	rmdir $(DESTDIR)/usr/local/lib/bitsnet
+	rm -f $(DESTDIR)/usr/local/etc/bitsnetrc
+	rm -f $(DESTDIR)/usr/local/bin/bitsnet
+	rm -f $(DESTDIR)/usr/local/man/man1/bitsnet.1.gz
+	rm -f $(DESTDIR)/usr/local/share/applications/bitsnet.desktop
+	echo "OK."
+
 
 # Clean the working directory
 .PHONY: clean
